@@ -4,7 +4,7 @@ start_l = int(input("Start reading from line: "))
 end_l = int(input("Stop reading from line: "))
 
 d = input("Distance to shift (km): ") #distance in km
-brng = math.radians(input("Bearing (Decimal Degrees): ")) #bearing, in decimal degrees
+brng = math.radians(int(input("Bearing (Decimal Degrees): "))) #bearing, in decimal degrees
 
 sct_path = "D:\Documents\GitHub\Hong-Kong-Sector-Package\Data\Sector\Hong-Kong-Sector-File.sct" #replace with the path to your.sct
 ese_path = "D:\Documents\GitHub\Hong-Kong-Sector-Package\Data\Sector\Hong-Kong-Sector-File.ese" #replace with the path to your.ese
