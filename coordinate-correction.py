@@ -58,7 +58,11 @@ def groundlayout(): #for GEO
       lat2, long2 = convert(line[coord_i + 30:coord_i + 44], line[coord_i + 45:coord_i + 69])
       lat2_prefix, long2_prefix = "N" if lat2 > 0 else "S", "E" if long2 > 0 else "W"
 
-      colour = "Taxiway" if "Taxiway" in line else "Holding" if "Holding" in line else "White"
+      try:
+        if line[70].isalpha():
+          colour = line[70:] 
+      except:
+        pass
 
       op_f.write(lat1_prefix + str(toDMS(lat1)) + " " + long1_prefix + str(toDMS(long1)) + " " + lat2_prefix + str(toDMS(lat2)) + " " + long2_prefix + str(toDMS(long2)) + " " + colour + "\n")
 
