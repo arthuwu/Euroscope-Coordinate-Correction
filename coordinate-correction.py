@@ -3,12 +3,12 @@ import math, linecache
 start_l = int(input("Start reading from line: "))
 end_l = int(input("Stop reading from line: "))
 
-d = input("Distance to shift (km): ") #distance in km
-brng = math.radians(int(input("Bearing (Decimal Degrees): "))) #bearing, in decimal degrees
+d = float(input("Distance to shift (km): ")) #distance in km
+brng = math.radians(float(input("Bearing (Decimal Degrees): "))) #bearing, in decimal degrees
 
 sct_path = "D:\Documents\GitHub\Hong-Kong-Sector-Package\Data\Sector\Hong-Kong-Sector-File.sct" #replace with the path to your.sct
 ese_path = "D:\Documents\GitHub\Hong-Kong-Sector-Package\Data\Sector\Hong-Kong-Sector-File.ese" #replace with the path to your.ese
-op_path = "D:\Downloads\VHHX_ese_v2.txt" #replace with where you want to store your output'
+op_path = "D:\Downloads\ESCC_output.txt" #replace with where you want to store your output'
 
 ## formatting
 def toDD(coord): ## converting d/m/s to decimal degrees
@@ -29,6 +29,18 @@ def toDMS(coord): ## converting decimal degrees to d/m/s
   m = int(dec * 60 // 1)
   s = "{:.3f}".format(((dec * 60) % 1) * 60)
   return(str(d).zfill(3) + "." + str(m).zfill(2) + "." + str(s.zfill(6)))
+
+def findCoordInLine(line):
+  if "N" in line:
+    i = str(line).find("N")
+    if line[i + 4] == ".": #this is stupid lol
+      return True, i
+  elif "S" in line:
+    i = str(line).find("S")
+    if line[i+4] == ".":
+      return True, i
+  else:
+    return False, None
 
 ## calculating the new coords
 def convert(lat1, long1):
@@ -51,8 +63,8 @@ def groundlayout(): #for GEO
   global start_l, end_l
   for l in range(start_l, end_l): #for VHHX, (16025, 16978)
     line = linecache.getline(sct_path, l)
-    if "N022." in line:
-      coord_i = str(line).find("N0")
+    coord_presence, coord_i = findCoordInLine(line)
+    if coord_presence:
       lat1, long1 = convert(line[coord_i:coord_i + 14], line[coord_i + 15:coord_i + 29])
       lat1_prefix, long1_prefix = "N" if lat1 > 0 else "S", "E" if long1 > 0 else "W"
 
@@ -71,8 +83,8 @@ def smr(): #for Regions
   global start_l, end_l
   for l in range(start_l, end_l): #for VHHX, (72176, 73464)
     line = linecache.getline(sct_path, l)
-    if "N022." in line:
-      coord_i = str(line).find("N0")
+    coord_presence, coord_i = findCoordInLine(line)
+    if coord_presence:
       lat1, long1 = convert(line[coord_i:coord_i + 14], line[coord_i + 15:coord_i + 29])
       lat1_prefix, long1_prefix = "N" if lat1 > 0 else "S", "E" if long1 > 0 else "W"
       
@@ -89,8 +101,8 @@ def ese(): #for Free text
   global start_l, end_l
   for l in range(start_l, end_l): #for VHHX, (4159, 4259)
     line = linecache.getline(ese_path, l)
-    if "N022." in line:
-      coord_i = str(line).find("N0")
+    coord_presence, coord_i = findCoordInLine(line)
+    if coord_presence:
       lat1, long1 = convert(line[coord_i:coord_i + 14], line[coord_i + 15:coord_i + 29])
       lat1_prefix, long1_prefix = "N" if lat1 > 0 else "S", "E" if long1 > 0 else "W"
 
