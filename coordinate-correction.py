@@ -11,7 +11,7 @@ ese_path = "D:\Documents\GitHub\Hong-Kong-Sector-Package\Data\Sector\Hong-Kong-S
 op_path = "D:\Downloads\ESCC_output.txt" #replace with where you want to store your output'
 
 ## formatting
-def toDD(coord): ## converting d/m/s to decimal degrees
+def toDD(coord): ## converting d/m/s to decimal degrees; returns DD coord
   coord = coord.strip("NESW")
   d, m, s = "", "",""
   for i, v in enumerate(coord):
@@ -23,27 +23,27 @@ def toDD(coord): ## converting d/m/s to decimal degrees
       s += v
   return int(d) / 1 + int(m) / 60 + float(s) / 3600
 
-def toDMS(coord): ## converting decimal degrees to d/m/s
+def toDMS(coord): ## converting decimal degrees to d/m/s; returns DMS coord
   dec, deg = math.modf(coord)
   d = int(deg)
   m = int(dec * 60 // 1)
   s = "{:.3f}".format(((dec * 60) % 1) * 60)
   return(str(d).zfill(3) + "." + str(m).zfill(2) + "." + str(s.zfill(6)))
 
-def findCoordInLine(line):
+def findCoordInLine(line): # returns true and start index of first coordinate if found; else false and none
   if "N" in line:
     i = str(line).find("N")
-    if line[i + 4] == ".": #this is stupid lol
+    if line[i + 4] == ".": # this is stupid lol
       return True, i
   elif "S" in line:
     i = str(line).find("S")
-    if line[i+4] == ".":
+    if line[i + 4] == ".": # but i can't think of a better way
       return True, i
   else:
     return False, None
 
 ## calculating the new coords
-def convert(lat1, long1):
+def convert(lat1, long1): # returns new coords in DD
   lat, long = math.radians(toDD(lat1)), math.radians(toDD(long1))
               
   a = math.sin(lat) * math.cos(d/6371) + math.cos(lat) * math.sin(d/6371) * math.cos(brng)
