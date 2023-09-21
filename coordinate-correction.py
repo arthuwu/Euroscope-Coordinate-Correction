@@ -48,6 +48,7 @@ op_f = open(op_path, "a")
 
 ## writing output
 def groundlayout(): #for GEO
+  global start_l, end_l
   for l in range(start_l, end_l): #for VHHX, (16025, 16978)
     line = linecache.getline(sct_path, l)
     if "N022." in line:
@@ -67,6 +68,7 @@ def groundlayout(): #for GEO
       op_f.write(lat1_prefix + str(toDMS(lat1)) + " " + long1_prefix + str(toDMS(long1)) + " " + lat2_prefix + str(toDMS(lat2)) + " " + long2_prefix + str(toDMS(long2)) + " " + colour + "\n")
 
 def smr(): #for Regions
+  global start_l, end_l
   for l in range(start_l, end_l): #for VHHX, (72176, 73464)
     line = linecache.getline(sct_path, l)
     if "N022." in line:
@@ -84,6 +86,7 @@ def smr(): #for Regions
       op_f.write(line + "\n")
 
 def ese(): #for Free text
+  global start_l, end_l
   for l in range(start_l, end_l): #for VHHX, (4159, 4259)
     line = linecache.getline(ese_path, l)
     if "N022." in line:
