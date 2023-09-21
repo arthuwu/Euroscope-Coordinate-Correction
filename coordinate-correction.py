@@ -1,7 +1,7 @@
 import math, linecache
 
 start_l = int(input("Start reading from line: "))
-end_l = int(input("Stop reading from line: "))
+end_l = int(input("Stop reading at line: "))
 
 d = float(input("Distance to shift (km): ")) #distance in km
 brng = math.radians(float(input("Bearing (Decimal Degrees): "))) #bearing, in decimal degrees
