@@ -9,7 +9,7 @@ A python script which can be used to shift coordinates in .sct and .ese files
 - Copy the output and replace the sections in the files manually 
 
 ## Features
-- Will be able to filter out and ignore region titles and colours
+- Will be able to filter out and re-add in output region titles and colours
 - Has loads of bugs? 
 
 
